@@ -2,7 +2,7 @@
 
 namespace uC::Errors
 {
-  void uC_config_error(char const* msg)
+  void uC_config_error(char const*)
   {
     __asm("bkpt 255");
     __asm("bx lr");

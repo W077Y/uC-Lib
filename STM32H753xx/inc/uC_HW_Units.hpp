@@ -53,7 +53,7 @@ namespace uC
       }
       constexpr uC::register_bit_t get_clk_bit() const
       {
-        return uC::register_bit_t(*reinterpret_cast<uint32_t volatile* const>(this->m_reg_address), this->m_bit_mask);
+        return uC::register_bit_t(*reinterpret_cast<uint32_t volatile*>(this->m_reg_address), this->m_bit_mask);
       }
 
     private:
@@ -74,7 +74,7 @@ namespace uC
 
       constexpr uC::register_bit_t get_clk_bit() const { return this->m_clk_bit.get_clk_bit(); }
       constexpr uint32_t           get_port_number() const { return this->m_port_number; }
-      constexpr GPIO_TypeDef&      get_base() const { return *reinterpret_cast<GPIO_TypeDef* const>(this->m_base_address); }
+      constexpr GPIO_TypeDef&      get_base() const { return *reinterpret_cast<GPIO_TypeDef*>(this->m_base_address); }
 
     private:
       uint32_t const m_base_address;
@@ -98,7 +98,7 @@ namespace uC
       {
         for (unsigned i = 0; i < 15; i++)
         {
-          if (this->m_mask == (1 << i))
+          if (this->m_mask == (1UL << i))
             return i;
         }
         return 16;
@@ -137,7 +137,7 @@ namespace uC
       }
 
       constexpr uint32_t           get_number() const { return this->m_mumber; }
-      constexpr DMA_TypeDef&       get_stream_base() const { return *reinterpret_cast<DMA_TypeDef* const>(this->m_base_address); }
+      constexpr DMA_TypeDef&       get_stream_base() const { return *reinterpret_cast<DMA_TypeDef*>(this->m_base_address); }
       constexpr uC::register_bit_t get_clk_bit() const { return this->m_clk_bit.get_clk_bit(); }
 
     private:
@@ -166,9 +166,9 @@ namespace uC
       constexpr uC::register_bit_t get_clk_bit() const { return this->m_dma.get_clk_bit(); }
 
       constexpr uint32_t            get_stream_number() const { return this->m_mumber; }
-      constexpr DMA_Stream_TypeDef& get_dma_stream_base() const { return *reinterpret_cast<DMA_Stream_TypeDef* const>(this->m_base_address); }
+      constexpr DMA_Stream_TypeDef& get_dma_stream_base() const { return *reinterpret_cast<DMA_Stream_TypeDef*>(this->m_base_address); }
 
-      constexpr DMAMUX_Channel_TypeDef& get_mux_base() const { return *reinterpret_cast<DMAMUX_Channel_TypeDef* const>(this->m_mux_base_address); }
+      constexpr DMAMUX_Channel_TypeDef& get_mux_base() const { return *reinterpret_cast<DMAMUX_Channel_TypeDef*>(this->m_mux_base_address); }
 
       static constexpr uint32_t max_number_of_dmas            = 2;
       static constexpr uint32_t max_number_of_streams_per_dma = 8;
@@ -192,14 +192,14 @@ namespace uC
       constexpr USART_CFG(uint32_t const& addr, uint32_t const& uart_no, CLK_BIT const& clk_bit, IRQn_Type const& irq_type, uint32_t& clk) noexcept
           : m_address(addr)
           , m_mumber(uart_no)
-          , m_clk_bit(clk_bit)
           , m_irq_type(irq_type)
+          , m_clk_bit(clk_bit)
           , m_clk(clk)
       {
       }
 
       constexpr uint32_t           get_number() const { return this->m_mumber; }
-      constexpr USART_TypeDef&     get_base() const { return *reinterpret_cast<USART_TypeDef* const>(this->m_address); }
+      constexpr USART_TypeDef&     get_base() const { return *reinterpret_cast<USART_TypeDef*>(this->m_address); }
       constexpr uC::register_bit_t get_clk_bit() const { return this->m_clk_bit.get_clk_bit(); }
       constexpr IRQn_Type          get_irq_type() const { return this->m_irq_type; }
 
@@ -221,14 +221,14 @@ namespace uC
       constexpr TIMER_CFG(uint32_t const& addr, uint32_t const& number, CLK_BIT const& clk_bit, IRQn_Type const& irq_type, uint32_t& clk) noexcept
           : m_address(addr)
           , m_mumber(number)
-          , m_clk_bit(clk_bit)
           , m_irq_type(irq_type)
+          , m_clk_bit(clk_bit)
           , m_clk(clk)
       {
       }
 
       constexpr uint32_t           get_number() const { return this->m_mumber; }
-      constexpr TIM_TypeDef&       get_base() const { return *reinterpret_cast<TIM_TypeDef* const>(this->m_address); }
+      constexpr TIM_TypeDef&       get_base() const { return *reinterpret_cast<TIM_TypeDef*>(this->m_address); }
       constexpr uC::register_bit_t get_clk_bit() const { return this->m_clk_bit.get_clk_bit(); }
       constexpr IRQn_Type          get_irq_type() const { return this->m_irq_type; }
 
@@ -257,7 +257,7 @@ namespace uC
       }
 
       constexpr uint32_t           get_number() const { return this->m_mumber; }
-      constexpr DAC_TypeDef&       get_base() const { return *reinterpret_cast<DAC_TypeDef* const>(this->m_address); }
+      constexpr DAC_TypeDef&       get_base() const { return *reinterpret_cast<DAC_TypeDef*>(this->m_address); }
       constexpr uC::register_bit_t get_clk_bit() const { return this->m_clk_bit.get_clk_bit(); }
 
     private:
@@ -276,7 +276,7 @@ namespace uC
       {
       }
 
-      constexpr ADC_Common_TypeDef& get_base() const { return *reinterpret_cast<ADC_Common_TypeDef* const>(this->m_address); }
+      constexpr ADC_Common_TypeDef& get_base() const { return *reinterpret_cast<ADC_Common_TypeDef*>(this->m_address); }
       constexpr uC::register_bit_t  get_clk_bit() const { return this->m_clk_bit.get_clk_bit(); }
       constexpr uint32_t            get_number() const { return this->m_mumber; }
 
@@ -304,7 +304,7 @@ namespace uC
 
       constexpr uint32_t            get_blk_number() const { return this->m_common.get_number(); }
       constexpr uint32_t            get_adc_number() const { return this->m_mumber; }
-      constexpr ADC_TypeDef&        get_base() const { return *reinterpret_cast<ADC_TypeDef* const>(this->m_address); }
+      constexpr ADC_TypeDef&        get_base() const { return *reinterpret_cast<ADC_TypeDef*>(this->m_address); }
       constexpr ADC_Common_TypeDef& get_common_base() const { return this->m_common.get_base(); }
       constexpr uC::register_bit_t  get_clk_bit() const { return this->m_common.get_clk_bit(); }
       constexpr uint32_t            get_clk() const { return this->m_clk; }

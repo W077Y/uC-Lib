@@ -5,5 +5,6 @@
 #include <uC_Errors.hpp>
 #include <uC_GPIO.hpp>
 #include <uC_Register.hpp>
+#include <uC_UART.hpp>
 
 #endif

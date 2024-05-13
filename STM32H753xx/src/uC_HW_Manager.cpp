@@ -8,8 +8,8 @@ namespace
   std::atomic<uint32_t> dma_stream_multi_use_flags[uC::DMA_Streams::HW_Unit::max_number_of_dmas] = {};
   std::atomic<uint32_t> uart_multi_use_flags[uC::USARTs::HW_Unit::max_number_of_usarts]          = {};
   std::atomic<uint32_t> timer_multi_use_flags[uC::TIMERs::HW_Unit::max_number_of_units]          = {};
-  std::atomic<uint32_t> dac_multi_use_flags[uC::DACs::HW_Unit::max_number_of_units]              = {};
-  std::atomic<uint32_t> adc_multi_use_flags[uC::ADCs::HW_Unit::max_number_of_units]              = {};
+  // std::atomic<uint32_t> dac_multi_use_flags[uC::DACs::HW_Unit::max_number_of_units]              = {};
+  std::atomic<uint32_t> adc_multi_use_flags[uC::ADCs::HW_Unit::max_number_of_units] = {};
 
   bool try_lock_hw_unit(std::atomic<uint32_t>& entry, uint32_t const& msk)
   {
