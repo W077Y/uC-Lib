@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
-
+cmake_minimum_required(VERSION 3.19)
 
 set(target_name "uC")
 message(STATUS "#                uC-Lib: ${target_name}")
