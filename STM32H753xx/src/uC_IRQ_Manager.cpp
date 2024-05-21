@@ -1,4 +1,3 @@
-#include <WLib_Callback_Interface.hpp>
 #include <atomic>
 #include <tuple>
 #include <uC_DMA.hpp>
@@ -6,18 +5,19 @@
 #include <uC_IRQ_Manager.hpp>
 #include <uC_Register.hpp>
 #include <uC_UART.hpp>
+#include <wlib.hpp>
 
 namespace
 {
-  WLib::Callback_Interface<void()>*                                                      irq_handler_usart[uC::USARTs::HW_Unit::max_number_of_usarts]{};
-  WLib::Callback_Interface<void(uC::HANDLEs::DMA_Stream_Handle_t::irq_reason_t const&)>* irq_handler_dma_stream[2][8]{};
+  wlib::Callback<void()>*                                                      irq_handler_usart[uC::USARTs::HW_Unit::max_number_of_usarts]{};
+  wlib::Callback<void(uC::HANDLEs::DMA_Stream_Handle_t::irq_reason_t const&)>* irq_handler_dma_stream[2][8]{};
 
-  constexpr std::tuple<IRQn_Type, WLib::Callback_Interface<void()>*&> get_entry(uC::USARTs::HW_Unit const& hw_unit)
+  constexpr std::tuple<IRQn_Type, wlib::Callback<void()>*&> get_entry(uC::USARTs::HW_Unit const& hw_unit)
   {
     return { hw_unit.get_irq_type(), irq_handler_usart[hw_unit.get_number()] };
   }
 
-  constexpr std::tuple<IRQn_Type, WLib::Callback_Interface<void(uC::HANDLEs::DMA_Stream_Handle_t::irq_reason_t const&)>*&>
+  constexpr std::tuple<IRQn_Type, wlib::Callback<void(uC::HANDLEs::DMA_Stream_Handle_t::irq_reason_t const&)>*&>
   get_entry(uC::DMA_Streams::HW_Unit const& hw_unit)
   {
     return { hw_unit.get_irq_type(), irq_handler_dma_stream[hw_unit.get_dma_number()][hw_unit.get_stream_number()] };
@@ -48,7 +48,7 @@ namespace uC::IRQ_Manager
     return val;
   }
 
-  void register_irq(uC::USARTs::HW_Unit const& uart_name, WLib::Callback_Interface<void()>& cb_handle, IRQ_Priority const& prio)
+  void register_irq(uC::USARTs::HW_Unit const& uart_name, wlib::Callback<void()>& cb_handle, IRQ_Priority const& prio)
   {
     auto [irq_idx, handler] = get_entry(uart_name);
     handler                 = &cb_handle;
@@ -62,9 +62,9 @@ namespace uC::IRQ_Manager
     handler = nullptr;
   }
 
-  void register_irq(uC::DMA_Streams::HW_Unit const&                                                        hw_unit,
-                    WLib::Callback_Interface<void(uC::HANDLEs::DMA_Stream_Handle_t::irq_reason_t const&)>& cb_handle,
-                    IRQ_Priority const&                                                                    prio)
+  void register_irq(uC::DMA_Streams::HW_Unit const&                                              hw_unit,
+                    wlib::Callback<void(uC::HANDLEs::DMA_Stream_Handle_t::irq_reason_t const&)>& cb_handle,
+                    IRQ_Priority const&                                                          prio)
   {
     auto [irq_idx, handler] = get_entry(hw_unit);
     handler                 = &cb_handle;

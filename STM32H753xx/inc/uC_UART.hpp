@@ -2,23 +2,19 @@
 #ifndef UC_UART_HPP
 #define UC_UART_HPP
 
-#include <WLib_CString_Sink_Interface.hpp>
-#include <WLib_Callback_Interface.hpp>
-#include <WLib_LockFree_Puplisher.hpp>
-#include <WLib_MPSC.hpp>
-#include <WLib_Publisher_Interface.hpp>
 #include <cstdint>
 #include <cstring>
 #include <uC_DMA.hpp>
 #include <uC_Errors.hpp>
 #include <uC_GPIO.hpp>
 #include <uC_HW_Handles.hpp>
+#include <wlib.hpp>
 
 namespace uC
 {
   class UART__TX_DMA__RX_IRQ final
-      : public WLib::Publisher_Interface<char>
-      , public WLib::CString_Sink_Interface
+      : public wlib::publisher::Publisher_Interface<char>
+      , public wlib::CString_Sink_Interface
   {
     using this_t       = UART__TX_DMA__RX_IRQ;
     using irq_reason_t = uC::HANDLEs::DMA_Stream_Handle_t::irq_reason_t;
@@ -38,7 +34,7 @@ namespace uC
 
   public:
     using payload_t            = typename Publisher_Interface<char>::payload_t;
-    using mem_payload_t        = WLib::Container::mpsc_queue_ex_mem<char>::mem_payload_t;
+    using mem_payload_t        = wlib::container::mpsc_queue_ex_mem<char>::mem_payload_t;
     using Subscriber_Interface = typename Publisher_Interface<char>::Subscriber_Interface;
 
     static constexpr hw_cfg_t UART_1__TX_A_09__RX__A_10{ uC::USARTs::USART_1, { uC::GPIOs::A_09, 7 }, { uC::GPIOs::A_10, 7 }, 42 };
@@ -163,15 +159,15 @@ namespace uC
 
     std::atomic<bool>                                                m_trans_ongoing = false;
     std::atomic<uint32_t>                                            m_cur_blk_len   = 0;
-    WLib::Memberfunction_Callback<this_t, void(irq_reason_t const&)> m_transfer_complete_cb{ *this, &this_t::p_finish_transmission };
-    WLib::Memberfunction_Callback<this_t, void()>                    m_rx_irq_cb{ *this, &this_t::rx_irq_handler };
+    wlib::Memberfunction_Callback<this_t, void(irq_reason_t const&)> m_transfer_complete_cb{ *this, &this_t::p_finish_transmission };
+    wlib::Memberfunction_Callback<this_t, void()>                    m_rx_irq_cb{ *this, &this_t::rx_irq_handler };
 
     uC::HANDLEs::USART_Handle_t              m_uart_handle;
     uC::Alternative_Funktion_Pin             m_tx_pin;
     uC::Alternative_Funktion_Pin             m_rx_pin;
     uC::HANDLEs::DMA_Stream_Handle_t         m_dma_handle;
-    WLib::Container::mpsc_queue_ex_mem<char> m_buffer;
-    WLib::LockFree_Publisher<char, 5>        m_pup;
+    wlib::container::mpsc_queue_ex_mem<char> m_buffer;
+    wlib::publisher::LF_Publisher<char, 5>   m_pup;
   };
 
 }    // namespace uC

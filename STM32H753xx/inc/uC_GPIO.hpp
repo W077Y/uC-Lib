@@ -2,12 +2,12 @@
 #ifndef UC_GPIO_HPP
 #define UC_GPIO_HPP
 
-#include <WLib_PIN_Abstraction.hpp>
 #include <uC_HW_Handles.hpp>
+#include <wlib.hpp>
 
 namespace uC
 {
-  class Input_Pin final: public WLib::PIN::Digital_Input_Interface
+  class Input_Pin final: public wlib::abstraction::Digital_Input_Interface
   {
   public:
     using Pull_Mode = uC::HANDLEs::GPIO_Handle_t::Pull_Mode;
@@ -25,7 +25,7 @@ namespace uC
     HANDLEs::GPIO_Handle_t m_handle;
   };
 
-  class Output_Pin final: public WLib::PIN::Digital_Output_Interface
+  class Output_Pin final: public wlib::abstraction::Digital_Output_Interface
   {
   public:
     using Speed       = uC::HANDLEs::GPIO_Handle_t::Speed;

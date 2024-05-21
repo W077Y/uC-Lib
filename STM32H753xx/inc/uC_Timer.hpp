@@ -2,14 +2,14 @@
 #ifndef UC_TIMER_HPP
 #define UC_TIMER_HPP
 
-#include <WLib_PWM_Abstraction.hpp>
 #include <cmath>
 #include <uC_GPIO.hpp>
 #include <uC_HW_Handles.hpp>
+#include <wlib.hpp>
 
 namespace uC
 {
-  class PWM_Timer: public WLib::PWM::PWM_Interface
+  class PWM_Timer: public wlib::abstraction::PWM_Interface
   {
     using this_t = PWM_Timer;
     struct af_pin_t

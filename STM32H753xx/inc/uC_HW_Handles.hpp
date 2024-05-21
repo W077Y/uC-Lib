@@ -2,11 +2,11 @@
 #ifndef UC_HW_HANDLES_HPP
 #define UC_HW_HANDLES_HPP
 
-#include <WLib_Callback_Interface.hpp>
 #include <uC_Errors.hpp>
 #include <uC_HW_Manager.hpp>
 #include <uC_HW_Units.hpp>
 #include <uC_IRQ_Manager.hpp>
+#include <wlib.hpp>
 
 namespace uC
 {
@@ -140,7 +140,7 @@ namespace uC
           this->m_hw_unit.get_clk_bit().reset();
       }
 
-      void register_irq(WLib::Callback_Interface<void(irq_reason_t const&)>& cb_handle, uint32_t prio) const
+      void register_irq(wlib::Callback<void(irq_reason_t const&)>& cb_handle, uint32_t prio) const
       {
         uC::IRQ_Manager::register_irq(this->m_hw_unit, cb_handle, prio);
       }
@@ -177,7 +177,7 @@ namespace uC
 
       constexpr USART_TypeDef& get_base() const { return this->m_hw_unit.get_base(); }
 
-      void register_irq(WLib::Callback_Interface<void()>& cb_handle, uint32_t prio) const { uC::IRQ_Manager::register_irq(this->m_hw_unit, cb_handle, prio); }
+      void register_irq(wlib::Callback<void()>& cb_handle, uint32_t prio) const { uC::IRQ_Manager::register_irq(this->m_hw_unit, cb_handle, prio); }
 
       uint32_t get_clk() const { return this->m_hw_unit.get_clk(); }
 
@@ -210,7 +210,7 @@ namespace uC
 
       constexpr DAC_TypeDef& get_base() const { return this->m_hw_unit.get_base(); }
 
-      // void register_irq(WLib::Callback_Interface<void()>& cb_handle, uint32_t prio) { uC::IRQ_Manager::register_irq(this->m_hw_unit, cb_handle, prio); }
+      // void register_irq(wlib::Callback<void()>& cb_handle, uint32_t prio) { uC::IRQ_Manager::register_irq(this->m_hw_unit, cb_handle, prio); }
 
     private:
       uC::DACs::HW_Unit const m_hw_unit;
@@ -241,7 +241,7 @@ namespace uC
 
       constexpr TIM_TypeDef& get_base() const { return this->m_hw_unit.get_base(); }
 
-      void register_irq(WLib::Callback_Interface<void()>& cb_handle, uint32_t prio) const { uC::IRQ_Manager::register_irq(this->m_hw_unit, cb_handle, prio); }
+      void register_irq(wlib::Callback<void()>& cb_handle, uint32_t prio) const { uC::IRQ_Manager::register_irq(this->m_hw_unit, cb_handle, prio); }
 
       uint32_t get_clk() const { return this->m_hw_unit.get_clk(); }
 
@@ -275,7 +275,7 @@ namespace uC
       constexpr ADC_TypeDef&        get_base() const { return this->m_hw_unit.get_base(); }
       constexpr ADC_Common_TypeDef& get_common_base() const { return this->m_hw_unit.get_common_base(); }
 
-      // void register_irq(WLib::Callback_Interface<void()>& cb_handle, uint32_t prio) { uC::IRQ_Manager::register_irq(this->m_hw_unit, cb_handle, prio); }
+      // void register_irq(wlib::Callback<void()>& cb_handle, uint32_t prio) { uC::IRQ_Manager::register_irq(this->m_hw_unit, cb_handle, prio); }
 
       uint32_t get_clk() const { return this->m_hw_unit.get_clk(); }
 

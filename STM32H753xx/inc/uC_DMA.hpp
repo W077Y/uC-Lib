@@ -2,9 +2,9 @@
 #ifndef UC_DMA_HPP
 #define UC_DMA_HPP
 
-#include <WLib_Callback_Interface.hpp>
 #include <span>
 #include <uC_HW_Handles.hpp>
+#include <wlib.hpp>
 
 namespace uC
 {
